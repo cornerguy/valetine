@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Be My Valentine 💖</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    button {
+      font-size: 20px;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-left: 40px;
+    }
+
+    #yes {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    #no {
+      background: #adb5bd;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1 id="title">Will you be my Valentine? 💘</h1>
+    <button id="yes">YES 💖</button>
+    <button id="no">NO 😈</button>
+  </div>
+
+  <script>
+    // 💕 Get name from URL (?name=Cherry)
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
+
+    if (name) {
+      document.getElementById("title").innerText =
+        `Hey ${decodeURIComponent(name)} ❤️ Will you be my Valentine?`;
+    }
+
+    // 🏃‍♂️ NO button runs away
+    const noBtn = document.getElementById("no");
+
+    function moveNoButton() {
+      const maxX = window.innerWidth - noBtn.offsetWidth;
+      const maxY = window.innerHeight - noBtn.offsetHeight;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
+
+    // 💍 YES button win screen
+    document.getElementById("yes").addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div style="
+          height:100vh;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:40px;
+          background:linear-gradient(135deg,#ff758c,#ff7eb3);
+          color:white;
+          text-align:center;
+        ">
+          💖 YAY! Best Valentine Ever! 💖
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>
