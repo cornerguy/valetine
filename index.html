@@ -23,6 +23,7 @@
       align-items: center;
       justify-content: center;
       padding: 16px;
+      overflow: hidden;
     }
 
     @keyframes romanticBg {
@@ -39,6 +40,8 @@
       border-radius: 26px;
       text-align: center;
       box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 2;
     }
 
     h1 {
@@ -51,8 +54,8 @@
 
     .buttons {
       display: flex;
-      justify-content: space-between;
       gap: 16px;
+      justify-content: space-between;
     }
 
     button {
@@ -63,7 +66,7 @@
       border-radius: 999px;
       cursor: pointer;
       font-weight: 600;
-      transition: transform 0.25s ease;
+      transition: transform 0.15s ease;
       touch-action: manipulation;
     }
 
@@ -71,11 +74,14 @@
       background: linear-gradient(135deg, #ff4d6d, #ff758c);
       color: white;
       box-shadow: 0 12px 25px rgba(255, 77, 109, 0.5);
+      z-index: 3;
     }
 
     #no {
       background: #dee2e6;
       color: #333;
+      position: fixed; /* 👈 allows anywhere on screen */
+      z-index: 1;
     }
 
     .hint {
@@ -110,16 +116,41 @@
     }
 
     const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
 
-    function dodge() {
-      const x = Math.random() * 40 - 20; // small horizontal move
-      const y = Math.random() * 20 - 10; // small vertical move
+    function moveNoAnywhere() {
+      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
 
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
     }
 
-    // Hover on desktop, hover-like on mobile
-    noBtn.addEventListener("pointerenter", dodge);
+    // Hover on desktop + hover-like on mobile
+    noBtn.addEventListener("pointerenter", moveNoAnywhere);
+
+    // ✅ YES works correctly
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div style="
+          height:100vh;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-family:Poppins, sans-serif;
+          font-size:36px;
+          background:linear-gradient(135deg,#ff4d6d,#ff9a9e);
+          color:white;
+          text-align:center;
+          padding:20px;
+        ">
+          💖🌹 YES!!!<br>You just made my day 💕🥰
+        </div>
+      `;
+    });
   </script>
 
 </body>
