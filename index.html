@@ -18,7 +18,7 @@
       height: 100vh;
       background: linear-gradient(-45deg, #ff4d6d, #ff758c, #ff9a9e, #ffd6e0);
       background-size: 400% 400%;
-      animation: romanticBg 14s ease infinite;
+      animation: bg 14s ease infinite;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -26,7 +26,7 @@
       overflow: hidden;
     }
 
-    @keyframes romanticBg {
+    @keyframes bg {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
@@ -49,6 +49,7 @@
       font-weight: 800;
       margin-bottom: 28px;
       color: #ff4d6d;
+      line-height: 1.3;
     }
 
     .buttons {
@@ -71,13 +72,13 @@
       background: linear-gradient(135deg, #ff4d6d, #ff758c);
       color: white;
       box-shadow: 0 12px 25px rgba(255, 77, 109, 0.5);
-      z-index: 3;
+      z-index: 2;
     }
 
     #no {
       background: #dee2e6;
       color: #333;
-      z-index: 1;
+      z-index: 2;
     }
 
     .hint {
@@ -105,15 +106,18 @@
     const noBtn = document.getElementById("no");
     const yesBtn = document.getElementById("yes");
 
-    // 🔒 Lock initial position so NO is visible
-    requestAnimationFrame(() => {
-      const rect = noBtn.getBoundingClientRect();
-      noBtn.style.position = "fixed";
-      noBtn.style.left = rect.left + "px";
-      noBtn.style.top = rect.top + "px";
-    });
+    let floating = false;
 
     function moveNoAnywhere() {
+      if (!floating) {
+        // Capture initial position
+        const rect = noBtn.getBoundingClientRect();
+        noBtn.style.position = "fixed";
+        noBtn.style.left = rect.left + "px";
+        noBtn.style.top = rect.top + "px";
+        floating = true;
+      }
+
       const maxX = window.innerWidth - noBtn.offsetWidth - 20;
       const maxY = window.innerHeight - noBtn.offsetHeight - 20;
 
@@ -124,10 +128,10 @@
       noBtn.style.top = y + "px";
     }
 
-    // Desktop hover + mobile touch-intent
+    // Hover desktop + touch-intent mobile
     noBtn.addEventListener("pointerenter", moveNoAnywhere);
 
-    // YES works 100%
+    // YES always works
     yesBtn.addEventListener("click", () => {
       document.body.innerHTML = `
         <div style="
