@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Be My Valentine 💖</title>
 
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
   <style>
@@ -18,7 +19,7 @@
       height: 100vh;
       background: linear-gradient(-45deg, #ff4d6d, #ff758c, #ff9a9e, #ffd6e0);
       background-size: 400% 400%;
-      animation: romanticBg 12s ease infinite;
+      animation: romanticBg 14s ease infinite;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -36,18 +37,18 @@
     .spaghetti {
       position: absolute;
       width: 6px;
-      height: 120px;
-      background: rgba(255, 255, 255, 0.6);
+      height: 140px;
+      background: rgba(255, 255, 255, 0.55);
       border-radius: 20px;
-      animation: float 8s linear infinite;
+      animation: floatUp 9s linear infinite;
     }
 
-    @keyframes float {
+    @keyframes floatUp {
       from {
         transform: translateY(110vh) rotate(0deg);
       }
       to {
-        transform: translateY(-150px) rotate(360deg);
+        transform: translateY(-160px) rotate(360deg);
       }
     }
 
@@ -65,24 +66,24 @@
     }
 
     @keyframes pop {
-      from { transform: scale(0.8); opacity: 0; }
+      from { transform: scale(0.85); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
 
     h1 {
       font-size: 26px;
       font-weight: 800;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
       color: #ff4d6d;
       line-height: 1.3;
     }
 
     .buttons {
+      position: relative;
+      height: 64px;
       display: flex;
       justify-content: center;
       gap: 20px;
-      position: relative;
-      height: 60px;
     }
 
     button {
@@ -92,7 +93,7 @@
       border-radius: 999px;
       cursor: pointer;
       font-weight: 600;
-      transition: transform 0.2s ease;
+      transition: transform 0.15s ease;
       touch-action: manipulation;
     }
 
@@ -103,7 +104,7 @@
     #yes {
       background: linear-gradient(135deg, #ff4d6d, #ff758c);
       color: white;
-      box-shadow: 0 10px 25px rgba(255, 77, 109, 0.5);
+      box-shadow: 0 12px 25px rgba(255, 77, 109, 0.5);
     }
 
     #no {
@@ -122,12 +123,12 @@
 
 <body>
 
-  <!-- 🍝 Spaghetti -->
+  <!-- 🍝 Floating spaghetti -->
   <div class="spaghetti" style="left:10%; animation-delay:0s;"></div>
-  <div class="spaghetti" style="left:30%; animation-delay:2s;"></div>
-  <div class="spaghetti" style="left:50%; animation-delay:4s;"></div>
-  <div class="spaghetti" style="left:70%; animation-delay:1s;"></div>
-  <div class="spaghetti" style="left:90%; animation-delay:3s;"></div>
+  <div class="spaghetti" style="left:25%; animation-delay:2s;"></div>
+  <div class="spaghetti" style="left:45%; animation-delay:4s;"></div>
+  <div class="spaghetti" style="left:65%; animation-delay:1s;"></div>
+  <div class="spaghetti" style="left:85%; animation-delay:3s;"></div>
 
   <div class="card">
     <h1 id="title">Will you be my Valentine? 💘🌹</h1>
@@ -137,11 +138,11 @@
       <button id="no">NO 😅</button>
     </div>
 
-    <div class="hint">💞 Be honest… from your heart</div>
+    <div class="hint">💞 Follow your heart</div>
   </div>
 
   <script>
-    // 💕 Name from URL
+    // 💕 Name from URL (?name=Cherry)
     const params = new URLSearchParams(window.location.search);
     const name = params.get("name");
 
@@ -150,7 +151,7 @@
         `Hey ${decodeURIComponent(name)} ❤️ Will you be my Valentine? 💕`;
     }
 
-    // 🏃‍♂️ NO button hover only
+    // 🏃‍♂️ Hover-like escape (desktop + mobile)
     const noBtn = document.getElementById("no");
 
     function moveNoButton() {
@@ -164,10 +165,10 @@
       noBtn.style.top = `${y}px`;
     }
 
-    noBtn.addEventListener("mouseenter", moveNoButton);
-    noBtn.addEventListener("touchstart", moveNoButton);
+    // 👇 works for mouse + touch (best possible "hover" everywhere)
+    noBtn.addEventListener("pointerenter", moveNoButton);
 
-    // 💍 YES click
+    // 💍 YES screen
     document.getElementById("yes").addEventListener("click", () => {
       document.body.innerHTML = `
         <div style="
@@ -175,17 +176,18 @@
           display:flex;
           align-items:center;
           justify-content:center;
-          font-size:36px;
           font-family:Poppins, sans-serif;
+          font-size:36px;
           background:linear-gradient(135deg,#ff4d6d,#ff9a9e);
           color:white;
           text-align:center;
           padding:20px;
         ">
-          💖🌹 YES!!!<br>Best Valentine Ever 💕🥰
+          💖🌹 YES!!!<br>You just made my day 💕🥰
         </div>
       `;
     });
   </script>
+
 </body>
 </html>
