@@ -22,7 +22,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
       padding: 16px;
     }
 
@@ -40,7 +39,6 @@
       border-radius: 26px;
       text-align: center;
       box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
-      position: relative;
     }
 
     h1 {
@@ -52,41 +50,32 @@
     }
 
     .buttons {
-      position: relative;
-      height: 70px;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      justify-content: space-between;
       gap: 16px;
     }
 
     button {
+      flex: 1;
       font-size: 18px;
-      padding: 14px 28px;
+      padding: 14px 0;
       border: none;
       border-radius: 999px;
       cursor: pointer;
       font-weight: 600;
-      transition: transform 0.15s ease;
+      transition: transform 0.25s ease;
       touch-action: manipulation;
-    }
-
-    button:active {
-      transform: scale(0.95);
     }
 
     #yes {
       background: linear-gradient(135deg, #ff4d6d, #ff758c);
       color: white;
       box-shadow: 0 12px 25px rgba(255, 77, 109, 0.5);
-      z-index: 2;
     }
 
     #no {
       background: #dee2e6;
       color: #333;
-      position: absolute;
-      z-index: 1;
     }
 
     .hint {
@@ -102,7 +91,7 @@
   <div class="card">
     <h1 id="title">Will you be my Valentine? 💘🌹</h1>
 
-    <div class="buttons" id="buttonArea">
+    <div class="buttons">
       <button id="yes">YES 💖</button>
       <button id="no">NO 🙂</button>
     </div>
@@ -111,7 +100,7 @@
   </div>
 
   <script>
-    // 💕 Name from URL
+    // 💕 Name from URL (?name=Cherry)
     const params = new URLSearchParams(window.location.search);
     const name = params.get("name");
 
@@ -121,24 +110,16 @@
     }
 
     const noBtn = document.getElementById("no");
-    const area = document.getElementById("buttonArea");
 
-    function moveNoButton() {
-      const areaRect = area.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
+    function dodge() {
+      const x = Math.random() * 40 - 20; // small horizontal move
+      const y = Math.random() * 20 - 10; // small vertical move
 
-      const maxX = areaRect.width - btnRect.width;
-      const maxY = areaRect.height - btnRect.height;
-
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
     }
 
     // Hover on desktop, hover-like on mobile
-    noBtn.addEventListener("pointerenter", moveNoButton);
+    noBtn.addEventListener("pointerenter", dodge);
   </script>
 
 </body>
