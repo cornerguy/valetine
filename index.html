@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Be My Valentine 💖</title>
 
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
   <style>
@@ -33,25 +32,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* 🍝 Spaghetti ribbons */
-    .spaghetti {
-      position: absolute;
-      width: 6px;
-      height: 140px;
-      background: rgba(255, 255, 255, 0.55);
-      border-radius: 20px;
-      animation: floatUp 9s linear infinite;
-    }
-
-    @keyframes floatUp {
-      from {
-        transform: translateY(110vh) rotate(0deg);
-      }
-      to {
-        transform: translateY(-160px) rotate(360deg);
-      }
-    }
-
     .card {
       background: white;
       width: 100%;
@@ -61,13 +41,6 @@
       text-align: center;
       box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
       position: relative;
-      z-index: 10;
-      animation: pop 0.6s ease;
-    }
-
-    @keyframes pop {
-      from { transform: scale(0.85); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
     }
 
     h1 {
@@ -80,10 +53,11 @@
 
     .buttons {
       position: relative;
-      height: 64px;
+      height: 70px;
       display: flex;
       justify-content: center;
-      gap: 20px;
+      align-items: center;
+      gap: 16px;
     }
 
     button {
@@ -105,12 +79,14 @@
       background: linear-gradient(135deg, #ff4d6d, #ff758c);
       color: white;
       box-shadow: 0 12px 25px rgba(255, 77, 109, 0.5);
+      z-index: 2;
     }
 
     #no {
       background: #dee2e6;
       color: #333;
       position: absolute;
+      z-index: 1;
     }
 
     .hint {
@@ -123,26 +99,19 @@
 
 <body>
 
-  <!-- 🍝 Floating spaghetti -->
-  <div class="spaghetti" style="left:10%; animation-delay:0s;"></div>
-  <div class="spaghetti" style="left:25%; animation-delay:2s;"></div>
-  <div class="spaghetti" style="left:45%; animation-delay:4s;"></div>
-  <div class="spaghetti" style="left:65%; animation-delay:1s;"></div>
-  <div class="spaghetti" style="left:85%; animation-delay:3s;"></div>
-
   <div class="card">
     <h1 id="title">Will you be my Valentine? 💘🌹</h1>
 
-    <div class="buttons">
+    <div class="buttons" id="buttonArea">
       <button id="yes">YES 💖</button>
-      <button id="no">NO 😅</button>
+      <button id="no">NO 🙂</button>
     </div>
 
-    <div class="hint">💞 Follow your heart</div>
+    <div class="hint">💞 Both answers are okay</div>
   </div>
 
   <script>
-    // 💕 Name from URL (?name=Cherry)
+    // 💕 Name from URL
     const params = new URLSearchParams(window.location.search);
     const name = params.get("name");
 
@@ -151,12 +120,15 @@
         `Hey ${decodeURIComponent(name)} ❤️ Will you be my Valentine? 💕`;
     }
 
-    // 🏃‍♂️ Hover-like escape (desktop + mobile)
     const noBtn = document.getElementById("no");
+    const area = document.getElementById("buttonArea");
 
     function moveNoButton() {
-      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+      const areaRect = area.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const maxX = areaRect.width - btnRect.width;
+      const maxY = areaRect.height - btnRect.height;
 
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
@@ -165,28 +137,8 @@
       noBtn.style.top = `${y}px`;
     }
 
-    // 👇 works for mouse + touch (best possible "hover" everywhere)
+    // Hover on desktop, hover-like on mobile
     noBtn.addEventListener("pointerenter", moveNoButton);
-
-    // 💍 YES screen
-    document.getElementById("yes").addEventListener("click", () => {
-      document.body.innerHTML = `
-        <div style="
-          height:100vh;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-family:Poppins, sans-serif;
-          font-size:36px;
-          background:linear-gradient(135deg,#ff4d6d,#ff9a9e);
-          color:white;
-          text-align:center;
-          padding:20px;
-        ">
-          💖🌹 YES!!!<br>You just made my day 💕🥰
-        </div>
-      `;
-    });
   </script>
 
 </body>
