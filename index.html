@@ -109,4 +109,83 @@
     #no {
       background: #dee2e6;
       color: #333;
-      pos
+      position: absolute;
+    }
+
+    .hint {
+      margin-top: 18px;
+      font-size: 14px;
+      color: #999;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 🍝 Spaghetti -->
+  <div class="spaghetti" style="left:10%; animation-delay:0s;"></div>
+  <div class="spaghetti" style="left:30%; animation-delay:2s;"></div>
+  <div class="spaghetti" style="left:50%; animation-delay:4s;"></div>
+  <div class="spaghetti" style="left:70%; animation-delay:1s;"></div>
+  <div class="spaghetti" style="left:90%; animation-delay:3s;"></div>
+
+  <div class="card">
+    <h1 id="title">Will you be my Valentine? 💘🌹</h1>
+
+    <div class="buttons">
+      <button id="yes">YES 💖</button>
+      <button id="no">NO 😅</button>
+    </div>
+
+    <div class="hint">💞 Be honest… from your heart</div>
+  </div>
+
+  <script>
+    // 💕 Name from URL
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
+
+    if (name) {
+      document.getElementById("title").innerText =
+        `Hey ${decodeURIComponent(name)} ❤️ Will you be my Valentine? 💕`;
+    }
+
+    // 🏃‍♂️ NO button hover only
+    const noBtn = document.getElementById("no");
+
+    function moveNoButton() {
+      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
+
+    // 💍 YES click
+    document.getElementById("yes").addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div style="
+          height:100vh;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:36px;
+          font-family:Poppins, sans-serif;
+          background:linear-gradient(135deg,#ff4d6d,#ff9a9e);
+          color:white;
+          text-align:center;
+          padding:20px;
+        ">
+          💖🌹 YES!!!<br>Best Valentine Ever 💕🥰
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>
