@@ -40,8 +40,6 @@
       border-radius: 26px;
       text-align: center;
       box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
-      position: relative;
-      z-index: 2;
     }
 
     h1 {
@@ -53,32 +51,30 @@
     }
 
     .buttons {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
 
     button {
-      flex: 1;
       font-size: 18px;
       padding: 14px 0;
       border: none;
       border-radius: 999px;
       cursor: pointer;
       font-weight: 600;
-      touch-action: manipulation;
+      width: 100%;
     }
 
     #yes {
       background: linear-gradient(135deg, #ff4d6d, #ff758c);
       color: white;
       box-shadow: 0 12px 25px rgba(255, 77, 109, 0.5);
-      z-index: 2;
     }
 
     #no {
       background: #dee2e6;
       color: #333;
-      z-index: 2;
     }
 
     .hint {
@@ -105,34 +101,46 @@
   <script>
     const noBtn = document.getElementById("no");
     const yesBtn = document.getElementById("yes");
+    const title = document.getElementById("title");
 
-    let floating = false;
+    // 🎯 Get name from URL (?name=Alex)
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
 
-    function moveNoAnywhere() {
-      if (!floating) {
-        // Capture initial position
+    if (name) {
+      title.textContent = `Will you be my Valentine, ${decodeURIComponent(name)}? 💘🌹`;
+    }
+
+    let initialized = false;
+
+    function moveNoAway() {
+      if (!initialized) {
         const rect = noBtn.getBoundingClientRect();
+
+        noBtn.style.width = rect.width + "px";
+        noBtn.style.height = rect.height + "px";
         noBtn.style.position = "fixed";
         noBtn.style.left = rect.left + "px";
         noBtn.style.top = rect.top + "px";
-        floating = true;
+        noBtn.style.transition = "all 0.25s ease";
+
+        initialized = true;
       }
 
-      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+      const padding = 20;
+      const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+      const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
     }
 
-    // Hover desktop + touch-intent mobile
-    noBtn.addEventListener("pointerenter", moveNoAnywhere);
+    noBtn.addEventListener("mouseenter", moveNoAway);
+    noBtn.addEventListener("touchstart", moveNoAway);
 
-    // YES always works
     yesBtn.addEventListener("click", () => {
+      const displayName = name ? `, ${decodeURIComponent(name)}` : "";
+
       document.body.innerHTML = `
         <div style="
           height:100vh;
@@ -144,9 +152,8 @@
           background:linear-gradient(135deg,#ff4d6d,#ff9a9e);
           color:white;
           text-align:center;
-          padding:20px;
         ">
-          💖🌹 YES!!!<br>You just made my day 💕🥰
+          💖🌹 YES${displayName}!!!<br>You just made my day 💕🥰
         </div>
       `;
     });
